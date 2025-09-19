@@ -6,6 +6,7 @@ import './participation.css';
 
 export default function ParticipationGateway() {
   const [captchaVerified, setCaptchaVerified] = useState<boolean>(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const router = useRouter();
   
@@ -39,7 +40,7 @@ export default function ParticipationGateway() {
   }, [isComponentRootInView, controls]);
 
   const handleGroupSelection = async (code: string) => {
-    if (!captchaVerified) {
+    if (!captchaVerified || !captchaToken) {
       setError('Please complete the CAPTCHA verification first.');
       return;
     }
@@ -48,12 +49,15 @@ export default function ParticipationGateway() {
     setError(null);
 
     try {
-      const response = await fetch('/api/geolocate', {
+      const response = await fetch('/api/verify-location', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ selectedGroup: code }),
+        body: JSON.stringify({ 
+          selectedGroup: code,
+          captchaToken: captchaToken 
+        }),
       });
 
       const data = await response.json();
@@ -78,8 +82,13 @@ export default function ParticipationGateway() {
   };
 
   const handleCaptchaChange = (token: string | null) => {
-    // In a production environment, you might want to validate this token server-side
+    setCaptchaToken(token);
     setCaptchaVerified(!!token);
+    
+    if (!token) {
+      // Reset the form when captcha is cleared/expired
+      setError(null);
+    }
   };
 
   const groups = [
