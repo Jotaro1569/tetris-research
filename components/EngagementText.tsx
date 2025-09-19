@@ -26,29 +26,20 @@ const taglines: Tagline[] = [
 
 export default function EngagementText() {
   const [currentTagline, setCurrentTagline] = useState<Tagline>(taglines[0]);
-  const [isChanging, setIsChanging] = useState(false);
 
   const componentRef = useRef(null);
   const isInView = useInView(componentRef, { once: true, amount: 0.3 });
 
   useEffect(() => {
-    // Switch between taglines automatically
     const interval = setInterval(() => {
-      setIsChanging(true);
-      
-      setTimeout(() => {
-        setCurrentTagline(prev => 
-          prev.id === taglines[0].id ? taglines[1] : taglines[0]
-        );
-        setIsChanging(false);
-      }, 650); // Extended to allow for more complete exit animation
-      
-    }, 6000); // Switch every 8 seconds
+      setCurrentTagline(prev => 
+        prev.id === taglines[0].id ? taglines[1] : taglines[0]
+      );
+    }, 6000); // Switch every 6 seconds
     
     return () => clearInterval(interval);
   }, []);
 
-  // Enhanced component animation variants with more fluid motion
   const componentVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -56,55 +47,38 @@ export default function EngagementText() {
       y: 0,
       transition: { 
         duration: 1,
-        ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier for smoother motion
+        ease: [0.25, 0.1, 0.25, 1.0],
         when: "beforeChildren",
         staggerChildren: 0.15
       }
     }
   };
 
-  // Text animation variants for individual lines
   const textVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (custom: number) => ({
       opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.7, 
-        delay: custom * 0.2, 
-        ease: [0.16, 1, 0.3, 1] // Spring-like curve for smoother text entrance
-      }
+      transition: { duration: 0.7, delay: custom * 0.2, ease: [0.16, 1, 0.3, 1] }
     }),
     exit: { 
       opacity: 0, 
       y: -25, 
       filter: "blur(3px)",
-      transition: { 
-        duration: 0.6, 
-        ease: [0.43, 0.13, 0.23, 0.96] 
-      }
+      transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }
     }
   };
 
-  // Container animation variants for when each tagline changes
   const taglineContainerVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { 
-        staggerChildren: 0.12,
-        delayChildren: 0.1,
-        duration: 0.3,
-        ease: "easeOut"
-      }
+      transition: { staggerChildren: 0.12, delayChildren: 0.1, duration: 0.3, ease: "easeOut" }
     },
     exit: { 
       opacity: 0,
       filter: "blur(4px)",
-      transition: { 
-        duration: 0.6,
-        ease: [0.43, 0.13, 0.23, 0.96] 
-      }
+      transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }
     }
   };
 
@@ -120,7 +94,7 @@ export default function EngagementText() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        overflow: 'hidden' // Prevent any animation overflow
+        overflow: 'hidden'
       }}
     >
       <div style={{ textAlign: 'center' }}>
@@ -143,7 +117,7 @@ export default function EngagementText() {
                   fontSize: '1.875rem',
                   lineHeight: '2.25rem',
                   fontWeight: 'bold',
-                  transform: "perspective(1000px)", // Add perspective for 3D effects
+                  transform: "perspective(1000px)"
                 }}
                 whileHover={{ 
                   scale: 1.03, 
@@ -159,4 +133,4 @@ export default function EngagementText() {
       </div>
     </motion.div>
   );
-} 
+}

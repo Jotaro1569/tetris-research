@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import './participation.css';
 
 export default function ParticipationGateway() {
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [captchaVerified, setCaptchaVerified] = useState<boolean>(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const router = useRouter();
@@ -19,8 +18,6 @@ export default function ParticipationGateway() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   
   // Check if elements are in view
-  const isHeadingInView = useInView(headingRef, { once: true, amount: 0.5 });
-  const isGifInView = useInView(gifRef, { once: true, amount: 0.3 });
   const isCardsContainerInView = useInView(cardsContainerRef, { once: true, amount: 0.1 });
 
   // Added for the main component fade-in
@@ -68,7 +65,6 @@ export default function ParticipationGateway() {
       }
 
       if (data.allowed) {
-        setSelectedGroup(code);
         router.push(`/group/${code.toLowerCase()}`);
       } else {
         setError(data.message || `You can only participate in the study group for your country. Your detected country: ${data.userCountry || 'unknown'}`);
@@ -250,7 +246,7 @@ export default function ParticipationGateway() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                Please verify you're human
+                Please verify you&apos;re human
               </motion.h3>
               
               <motion.div 
@@ -463,4 +459,4 @@ export default function ParticipationGateway() {
       )}
     </motion.div>
   );
-} 
+}
