@@ -80,14 +80,35 @@ export default function ParticipationGateway() {
       console.log('Location verification response:', data);
 
       if (data.error) {
+        // CAPTCHA token was consumed and failed - need to reset
+        if (data.error.includes('CAPTCHA') || data.error.includes('verification failed')) {
+          setCaptchaVerified(false);
+          setCaptchaToken(null);
+          if (recaptchaRef.current) {
+            recaptchaRef.current.reset();
+          }
+        }
         setError(data.error);
       } else if (data.allowed) {
         router.push(`/group/${code.toLowerCase()}`);
       } else {
+        // Location verification failed but CAPTCHA was consumed
+        // Reset CAPTCHA so user can try again
+        setCaptchaVerified(false);
+        setCaptchaToken(null);
+        if (recaptchaRef.current) {
+          recaptchaRef.current.reset();
+        }
         setError(data.message || `You can only participate in the study group for your country. Your detected country: ${data.userCountry || 'unknown'}`);
       }
     } catch (err) {
       console.error('Location verification error:', err);
+      // Reset CAPTCHA on network errors too
+      setCaptchaVerified(false);
+      setCaptchaToken(null);
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+      }
       setError('Error verifying location. Please try again.');
     } finally {
       setIsVerifying(false);
