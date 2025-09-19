@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
   "dev": "next dev --turbopack",
-  "prebuild": "node scripts/download-geoip-db.js",  
   "build": "next build",
-  "prestart": "node scripts/download-geoip-db.js", 
   "start": "next start",
   "lint": "next lint"
 }
