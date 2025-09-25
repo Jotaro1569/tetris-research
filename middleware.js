@@ -12,7 +12,7 @@ export function middleware(request) {
     // Redirect to participation page if not verified
     if (!verified || verified.value !== 'true' || !allowedGroup) {
       console.log('Access denied: No verification cookies found');
-      return NextResponse.redirect(new URL('/participation', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
     
     // Extract requested group from URL
