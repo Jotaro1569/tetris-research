@@ -18,15 +18,15 @@ export async function POST(request) {
     const recaptchaData = await recaptchaResponse.json();
 
     if (!recaptchaData.success) {
-      return NextResponse.json({ 
-        error: 'CAPTCHA verification failed. Please try again.' 
+      return NextResponse.json({
+        error: 'CAPTCHA verification failed. Please try again.'
       }, { status: 400 });
     }
 
     // Get country from Vercel headers
     const country = request.headers.get('x-vercel-ip-country') || 'unknown';
     const city = request.headers.get('x-vercel-ip-city') || 'unknown';
-    
+
     // Map selected group to allowed countries
     const allowedCountries = {
       'US': ['US'],
@@ -37,15 +37,48 @@ export async function POST(request) {
 
     const allowed = allowedCountries[selectedGroup]?.includes(country) || false;
 
-    return NextResponse.json({
+    // Create response
+    const response = NextResponse.json({
       allowed,
       userCountry: country,
       userCity: city,
       selectedGroup,
-      message: allowed 
-        ? 'Access granted' 
+      message: allowed
+        ? 'Access granted'
         : `You can only participate in the study group for your country. Your location: ${city}, ${country}`
     });
+
+    // Set secure cookies if access is allowed
+    if (allowed) {
+      // Set verification cookie (expires in 24 hours)
+      response.cookies.set('group-verified', 'true', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60, // 24 hours in seconds
+        path: '/'
+      });
+
+      // Set allowed group cookie
+      response.cookies.set('allowed-group', selectedGroup, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60, // 24 hours in seconds
+        path: '/'
+      });
+
+      // Optional: Set user country for additional validation
+      response.cookies.set('user-country', country, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60,
+        path: '/'
+      });
+    }
+
+    return response;
 
   } catch (error) {
     console.error('Location verification error:', error);
