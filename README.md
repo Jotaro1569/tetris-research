@@ -5,7 +5,6 @@ A sleek, science-inspired web experience using Next.js App Router, styled with a
 ## Features
 
 - 🎮 Tetris-style splash animation with falling blocks
-- 📜 Fake, satirical "research study" description
 - ✨ Immersive, scroll-based UX with dynamic transitions
 - 🔄 Animated engagement taglines that cycle automatically
 - 🌐 Participant group selection with IP-based location check
