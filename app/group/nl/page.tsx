@@ -8,7 +8,7 @@ export default function DutchParticipantPage() {
     <div className="container" style={{ 
       maxWidth: '1200px', 
       margin: '0 auto', 
-      padding: '4rem 1rem',
+      padding: 'clamp(2rem, 8vh, 4rem) 1rem',
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -18,7 +18,7 @@ export default function DutchParticipantPage() {
       <motion.div 
         className="glass-panel"
         style={{
-          padding: '3rem',
+          padding: 'clamp(2rem, 5vw, 3rem)',
           width: '100%',
           maxWidth: '800px',
           border: '1px solid rgba(255, 215, 0, 0.3)',
@@ -32,7 +32,7 @@ export default function DutchParticipantPage() {
       >
         <motion.h1 
           style={{ 
-            fontSize: '2.5rem',
+            fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
             marginBottom: '2rem',
             background: 'linear-gradient(to right, #ffd700, #ffb347)',
             WebkitBackgroundClip: 'text',
@@ -48,7 +48,7 @@ export default function DutchParticipantPage() {
         
         <motion.p 
           style={{ 
-            fontSize: '1.25rem',
+            fontSize: 'clamp(1rem, 3vw, 1.25rem)',
             color: 'rgba(255, 255, 255, 0.9)',
             marginBottom: '3rem',
             lineHeight: '1.6'
@@ -57,8 +57,62 @@ export default function DutchParticipantPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
         >
-          This page will contain study instructions and your Tetris test soon.
+          To participate in the study, please click the below link
         </motion.p>
+        
+        {/* Research Page Button */}
+        <motion.div
+          style={{ marginBottom: '2rem' }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
+        >
+          <a 
+            href="https://survey.alchemer.com/s3/8364376/f4dd9944c62f" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none' }}
+          >
+            <motion.button
+              style={{
+                padding: 'clamp(0.875rem, 2vw, 1rem) clamp(2rem, 4vw, 2.5rem)',
+                background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 179, 71, 0.1) 100%)',
+                border: '2px solid rgba(255, 215, 0, 0.6)',
+                borderRadius: '0.5rem',
+                color: '#ffd700',
+                fontSize: 'clamp(1rem, 2.5vw, 1.1rem)',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                backdropFilter: 'blur(6px)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
+              whileHover={{ 
+                scale: 1.03,
+                borderColor: 'rgba(255, 215, 0, 0.8)'
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>Participate</span>
+              <svg 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15,3 21,3 21,9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </motion.button>
+          </a>
+        </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -73,15 +127,14 @@ export default function DutchParticipantPage() {
                 border: '1px solid rgba(255, 215, 0, 0.5)',
                 borderRadius: '0.375rem',
                 color: 'var(--gold, #ffd700)',
-                fontSize: '1rem',
+                fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
               whileHover={{ 
-                scale: 1.05, 
-                boxShadow: "0px 0px 15px rgba(255, 215, 0, 0.3)"
+                scale: 1.03,
               }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.97 }}
             >
               Back to Homepage
             </motion.button>

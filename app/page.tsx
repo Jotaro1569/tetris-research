@@ -72,11 +72,12 @@ export default function Home() {
           <motion.h1 
             className="gold-gradient-text"
             style={{
-              fontSize: '3rem',
-              lineHeight: '1',
+              fontSize: 'clamp(2rem, 8vw, 3rem)',
+              lineHeight: '1.2',
               fontWeight: 'bold',
               textAlign: 'center',
-              position: 'relative'
+              position: 'relative',
+              padding: '0 1rem'
             }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -102,7 +103,7 @@ export default function Home() {
             
             <motion.span 
               style={{ 
-                fontSize: '1.875rem',
+                fontSize: 'clamp(1.25rem, 5vw, 1.875rem)',
                 display: 'block',
                 paddingTop: '0.5rem'
               }}
@@ -118,7 +119,6 @@ export default function Home() {
             >
               Cognitive Study
               
-              {/* Simple underline with hover effect */}
               <motion.div
                 style={{
                   position: 'absolute',
@@ -137,10 +137,6 @@ export default function Home() {
                     duration: 0.8
                   }
                 }}
-                whileHover={{ 
-                  width: '100%',
-                  transition: { duration: 0.3 }
-                }}
               />
             </motion.span>
           </motion.h1>
@@ -153,7 +149,7 @@ export default function Home() {
       <section style={{
         minHeight: '100vh',
         backgroundImage: 'linear-gradient(135deg, #121212 0%, #1a1a1a 100%)',
-        padding: '5rem 1rem',
+        padding: 'clamp(2rem, 10vh, 5rem) 1rem',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -165,10 +161,11 @@ export default function Home() {
 
       {/* Engagement Text */}
       <section style={{
-        minHeight: '100vh',
+        minHeight: '80vh',
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'var(--background)',
+        backgroundColor: '#121212',
+        padding: '0',
       }}>
         <EngagementText />
       </section>
@@ -177,6 +174,7 @@ export default function Home() {
       <section style={{
         minHeight: '100vh',
         backgroundImage: 'linear-gradient(135deg, #121212 0%, #1a1a1a 100%)',
+        padding: '2rem 1rem',
       }}>
         <ParticipationGateway />
       </section>

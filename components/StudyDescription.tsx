@@ -6,226 +6,161 @@ export default function StudyDescription() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const containerVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: { 
-        duration: 0.8,
-        ease: [0.25, 0.1, 0.25, 1.0],
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
         when: "beforeChildren",
-        staggerChildren: 0.08,
-        delayChildren: 0.1
+        staggerChildren: 0.1,
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -20, rotateY: -5 },
+    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
-      x: 0,
-      rotateY: 0,
-      transition: { 
-        duration: 0.7, 
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const titleVariants = {
-    hidden: { opacity: 0, y: -15, scale: 0.98 },
-    visible: {
-      opacity: 1,
       y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.7,
-        ease: [0.34, 1.56, 0.64, 1],
+      transition: { 
+        duration: 0.5, 
+        ease: [0.22, 1, 0.36, 1]
       }
     }
   };
 
-  const letterVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const listItemVariants = {
+    hidden: { opacity: 0, x: -10 },
     visible: (custom: number) => ({
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
-        delay: 0.3 + (custom * 0.03),
-        duration: 0.5,
+        duration: 0.4,
+        delay: custom * 0.05,
         ease: [0.22, 1, 0.36, 1]
       }
     })
   };
 
-  const listItemVariants = {
-    hidden: { opacity: 0, x: -10, scale: 0.96 },
-    visible: (custom: number) => ({
-      opacity: 1,
-      x: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        delay: custom * 0.06,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    })
-  };
-
-  const footerVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        delay: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const titleText = "The Effects of Emotionally Sensitive Content on Tetris Performance";
-  const titleLetters = titleText.split("");
-
   return (
     <motion.div 
       ref={ref}
-      className="glass-panel"
       style={{
-        padding: '2rem',
+        padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2rem)',
         maxWidth: '48rem',
         marginLeft: 'auto',
         marginRight: 'auto',
-        borderRadius: '0.75rem',
+        borderRadius: '1rem',
         position: 'relative',
-        overflow: 'visible',
-        marginBottom: '1.5rem'
+        overflow: 'hidden',
+        background: 'linear-gradient(135deg, rgba(18, 18, 18, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%)',
+        border: '1px solid rgba(255, 215, 0, 0.15)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 215, 0, 0.1)',
       }}
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      whileHover={{
-        boxShadow: "0px 0px 20px rgba(255, 215, 0, 0.15)",
-        transition: { duration: 0.5 }
-      }}
     >
+      {/* Accent line */}
       <motion.div 
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          bottom: 0,
-          background: 'radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.08), transparent 60%)',
-          opacity: 0,
-          borderRadius: '0.75rem',
+          height: '3px',
+          background: 'linear-gradient(90deg, transparent, #ffd700, transparent)',
         }}
-        animate={{ 
-          opacity: isInView ? 1 : 0,
-          scale: isInView ? 1 : 0.8
-        }}
-        transition={{ duration: 1.2, delay: 0.3 }}
+        initial={{ opacity: 0, scaleX: 0 }}
+        animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
       />
       
-      <motion.h2 
-        variants={titleVariants}
+      {/* Subtle background pattern */}
+      <div 
         style={{
-          fontSize: '1.2rem',
-          lineHeight: '2rem',
-          fontWeight: 'bold',
-          marginBottom: '1.8rem',
-          transformOrigin: 'left',
-          display: 'flex',
-          flexWrap: 'wrap',
-          position: 'relative',
-          paddingBottom: '0.3rem'
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.03,
+          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 215, 0, 0.1) 10px, rgba(255, 215, 0, 0.1) 11px)`,
+          pointerEvents: 'none'
+        }}
+      />
+      
+      <motion.div variants={itemVariants}>
+        <h2 
+          style={{
+            fontSize: 'clamp(1.25rem, 3.5vw, 1.75rem)',
+            lineHeight: '1.4',
+            fontWeight: '600',
+            marginBottom: '2rem',
+            color: '#ffd700',
+            letterSpacing: '-0.02em',
+            fontFamily: 'var(--font-inter)',
+          }}
+        >
+          The Effects of Emotionally Sensitive Content on Tetris Performance
+        </h2>
+      </motion.div>
+      
+      <motion.div 
+        variants={itemVariants}
+        style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1.5rem', 
+          fontSize: 'clamp(0.938rem, 2vw, 1rem)', 
+          lineHeight: '1.7',
+          color: 'rgba(255, 255, 255, 0.85)'
         }}
       >
-        {titleLetters.map((char, index) => (
-          <motion.span
-            key={index}
-            custom={index}
-            variants={letterVariants}
-            className={char !== ' ' ? 'gold-gradient-text' : ''}
-            style={{ 
-              display: 'inline-block', 
-              marginRight: char === ' ' ? '0.4em' : '0em',
-              position: 'relative',
-              textShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)'
-            }}
-            whileHover={{ 
-              y: -2, 
-              scale: 1.2,
-              transition: { duration: 0.2 } 
-            }}
-          >
-            {char === ' ' ? '\u00A0' : char}
-          </motion.span>
-        ))}
-        
-        <motion.div 
-          style={{ 
-            position: 'absolute', 
-            bottom: 0, 
-            left: 0, 
-            height: '2px', 
-            background: 'linear-gradient(to right, rgba(255, 215, 0, 0.8), rgba(255, 215, 0, 0.3))'
-          }}
-          initial={{ width: 0 }}
-          animate={isInView ? { width: '100%' } : { width: 0 }}
-          transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        />
-      </motion.h2>
-      
-      <motion.div variants={itemVariants} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem', fontSize: '0.875rem', lineHeight: '1.25rem' }}>
-        <motion.p 
-          variants={itemVariants}
-          whileHover={{ 
-            x: 3, 
-            transition: { duration: 0.2 } 
-          }}
-          style={{ lineHeight: '1.4rem' }}
-        >
-          <span style={{ color: 'var(--gold)', fontFamily: 'monospace' }}>ABSTRACT:</span> This research study aims to understand how emotional stimuli affect performance in video games. More specifically, this study investigates how exposure to emotionally sensitive written content, such as depictions of violent intent, influence a player’s ability to perform in Tetris. 
-
+        <motion.p variants={itemVariants}>
+          <span style={{ 
+            color: '#ffd700', 
+            fontWeight: '600',
+            fontSize: '0.875rem',
+            letterSpacing: '0.05em',
+            display: 'inline-block',
+            marginBottom: '0.5rem'
+          }}>
+            ABSTRACT
+          </span>
+          <br />
+          This research study aims to understand how emotional stimuli affect performance in video games. More specifically, this study investigates how exposure to emotionally sensitive written content, such as depictions of violent intent, influence a player's ability to perform in Tetris.
         </motion.p>
         
-        <motion.p 
-          variants={itemVariants}
-          whileHover={{ 
-            x: 3, 
-            transition: { duration: 0.2 } 
-          }}
-          style={{ lineHeight: '1.4rem' }}
-        >
-          This research is being conducted under the supervision of Prof. Thomas A. Daniel, Ph.D and Lydia Flagg.
-          The researchers are interested in measuring whether these emotional interruptions impact reaction time, accuracy, or overall gameplay efficiency. By examining these effects, the study hopes to contribute to a better understanding of how emotional distractions influence cognitive and motor performance in gaming contexts.
+        <motion.p variants={itemVariants}>
+          This research is being conducted under the supervision of Prof. Thomas A. Daniel, Ph.D and Lydia Flagg. The researchers are interested in measuring whether these emotional interruptions impact reaction time, accuracy, or overall gameplay efficiency. By examining these effects, the study hopes to contribute to a better understanding of how emotional distractions influence cognitive and motor performance in gaming contexts.
         </motion.p>
         
         <motion.div 
           variants={itemVariants} 
           style={{ 
             marginTop: '1rem', 
-            borderTop: '1px solid rgba(255, 215, 0, 0.3)', 
-            paddingTop: '1rem',
-            position: 'relative'
+            paddingTop: '1.5rem',
+            borderTop: '1px solid rgba(255, 215, 0, 0.2)',
           }}
         >
-          <motion.h3 
-            variants={titleVariants}
+          <h3 
             style={{ 
-              fontSize: '1.125rem',
-              lineHeight: '1.75rem',
-              fontWeight: 'bold',
-              color: 'var(--gold-light)',
-              marginBottom: '0.75rem',
+              fontSize: 'clamp(1.063rem, 2.5vw, 1.188rem)',
+              fontWeight: '600',
+              color: '#ffd700',
+              marginBottom: '1rem',
+              letterSpacing: '-0.01em'
             }}
           >
-            Study Participation Includes:
-          </motion.h3>
-          <motion.ul variants={itemVariants} style={{ listStyleType: 'disc', paddingLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            Study Participation Includes
+          </h3>
+          <ul style={{ 
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '0.75rem',
+            paddingLeft: 0,
+            listStyle: 'none'
+          }}>
             {['Non-invasive cognitive assessment', 
               'Pattern recognition evaluation', 
               'Spatial reasoning challenges', 
@@ -234,40 +169,42 @@ export default function StudyDescription() {
                 key={index} 
                 custom={index}
                 variants={listItemVariants}
-                whileHover={{ 
-                  x: 3, 
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  transition: { duration: 0.2 } 
+                style={{
+                  paddingLeft: '1.5rem',
+                  position: 'relative',
+                  color: 'rgba(255, 255, 255, 0.8)',
                 }}
               >
+                <span style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: '0.5em',
+                  width: '6px',
+                  height: '6px',
+                  background: '#ffd700',
+                  borderRadius: '50%',
+                }} />
                 {item}
               </motion.li>
             ))}
-          </motion.ul>
+          </ul>
         </motion.div>
         
         <motion.div 
-          variants={footerVariants} 
+          variants={itemVariants} 
           style={{ 
             marginTop: '1rem', 
-            fontSize: '0.75rem', 
-            lineHeight: '1.2rem',
-            color: '#9ca3af', 
+            fontSize: 'clamp(0.75rem, 1.8vw, 0.813rem)', 
+            lineHeight: '1.5',
+            color: 'rgba(255, 255, 255, 0.5)', 
             fontStyle: 'italic',
-            position: 'relative'
           }}
         >
-     
-          <motion.p 
-            style={{ marginTop: '0.5rem' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.0, duration: 0.5 }}
-          >
-            * No mention of publication places as it hasnt been finalised yet.
-          </motion.p>
+          <p>
+            * No mention of publication places as it hasn't been finalised yet.
+          </p>
         </motion.div>
       </motion.div>
     </motion.div>
   );
-} 
+}

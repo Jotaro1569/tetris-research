@@ -8,7 +8,7 @@ export default function USParticipantPage() {
     <div className="container" style={{ 
       maxWidth: '1200px', 
       margin: '0 auto', 
-      padding: '4rem 1rem',
+      padding: 'clamp(2rem, 8vh, 4rem) 1rem',
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -18,7 +18,7 @@ export default function USParticipantPage() {
       <motion.div 
         className="glass-panel"
         style={{
-          padding: '3rem',
+          padding: 'clamp(2rem, 5vw, 3rem)',
           width: '100%',
           maxWidth: '800px',
           border: '1px solid rgba(255, 215, 0, 0.3)',
@@ -32,7 +32,7 @@ export default function USParticipantPage() {
       >
         <motion.h1 
           style={{ 
-            fontSize: '2.5rem',
+            fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
             marginBottom: '2rem',
             background: 'linear-gradient(to right, #ffd700, #ffb347)',
             WebkitBackgroundClip: 'text',
@@ -48,7 +48,7 @@ export default function USParticipantPage() {
         
         <motion.p 
           style={{ 
-            fontSize: '1.25rem',
+            fontSize: 'clamp(1rem, 3vw, 1.25rem)',
             color: 'rgba(255, 255, 255, 0.9)',
             marginBottom: '3rem',
             lineHeight: '1.6'
@@ -75,34 +75,25 @@ export default function USParticipantPage() {
           >
             <motion.button
               style={{
-                padding: '1rem 2.5rem',
+                padding: 'clamp(0.875rem, 2vw, 1rem) clamp(2rem, 4vw, 2.5rem)',
                 background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 179, 71, 0.1) 100%)',
                 border: '2px solid rgba(255, 215, 0, 0.6)',
                 borderRadius: '0.5rem',
                 color: '#ffd700',
-                fontSize: '1.1rem',
+                fontSize: 'clamp(1rem, 2.5vw, 1.1rem)',
                 fontWeight: '600',
                 cursor: 'pointer',
-                position: 'relative',
-                overflow: 'hidden',
-                transition: 'all 0.3s ease',
-                backdropFilter: 'blur(10px)',
+                transition: 'all 0.2s ease',
+                backdropFilter: 'blur(6px)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem'
               }}
               whileHover={{ 
-                scale: 1.05, 
-                boxShadow: "0px 8px 25px rgba(255, 215, 0, 0.3)",
+                scale: 1.03,
                 borderColor: 'rgba(255, 215, 0, 0.8)'
               }}
               whileTap={{ scale: 0.98 }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 179, 71, 0.2) 100%)';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 179, 71, 0.1) 100%)';
-              }}
             >
               <span>Participate</span>
               <svg 
@@ -136,15 +127,14 @@ export default function USParticipantPage() {
                 border: '1px solid rgba(255, 215, 0, 0.5)',
                 borderRadius: '0.375rem',
                 color: 'var(--gold, #ffd700)',
-                fontSize: '1rem',
+                fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
               whileHover={{ 
-                scale: 1.05, 
-                boxShadow: "0px 0px 15px rgba(255, 215, 0, 0.3)"
+                scale: 1.03,
               }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.97 }}
             >
               Back to Homepage
             </motion.button>

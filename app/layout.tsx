@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   title: "Tetris Cognitive Study",
   description: "Challenge your focus with a gamified cognitive study based on Tetris",
   keywords: ["Tetris", "Cognitive Study", "Research", "Focus", "Game"],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
 };
 
 export default function RootLayout({

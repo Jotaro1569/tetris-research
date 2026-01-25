@@ -26,7 +26,9 @@ const taglines: Tagline[] = [
 
 export default function EngagementText() {
   const [currentTagline, setCurrentTagline] = useState<Tagline>(taglines[0]);
-
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [revealedBlocks, setRevealedBlocks] = useState<Set<string>>(new Set());
+  const containerRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef(null);
   const isInView = useInView(componentRef, { once: true, amount: 0.3 });
 
@@ -35,10 +37,27 @@ export default function EngagementText() {
       setCurrentTagline(prev => 
         prev.id === taglines[0].id ? taglines[1] : taglines[0]
       );
-    }, 6000); // Switch every 6 seconds
+    }, 6000);
     
     return () => clearInterval(interval);
   }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    setMousePosition({ x, y });
+    
+    // Calculate which block is being revealed
+    const blockX = Math.floor(x / 60);
+    const blockY = Math.floor(y / 60);
+    const blockKey = `${blockX}-${blockY}`;
+    
+    setRevealedBlocks(prev => new Set(prev).add(blockKey));
+  };
 
   const componentVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -64,7 +83,6 @@ export default function EngagementText() {
     exit: { 
       opacity: 0, 
       y: -25, 
-      filter: "blur(3px)",
       transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }
     }
   };
@@ -77,9 +95,91 @@ export default function EngagementText() {
     },
     exit: { 
       opacity: 0,
-      filter: "blur(4px)",
       transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }
     }
+  };
+
+  // Generate grid of tetris blocks
+  const generateBlocks = () => {
+    if (!containerRef.current) return [];
+    
+    const blocks = [];
+    const cols = Math.ceil(window.innerWidth / 60);
+    const rows = Math.ceil(window.innerHeight / 60);
+    
+    // Single static color for all blocks
+    const blockColor = '#ffd700'; // Gold color
+    
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const blockKey = `${x}-${y}`;
+        const isRevealed = revealedBlocks.has(blockKey);
+        
+        // Calculate distance from mouse for reveal effect
+        const blockCenterX = x * 60 + 30;
+        const blockCenterY = y * 60 + 30;
+        const distance = Math.sqrt(
+          Math.pow(mousePosition.x - blockCenterX, 2) + 
+          Math.pow(mousePosition.y - blockCenterY, 2)
+        );
+        const revealRadius = 150;
+        const opacity = isRevealed || distance < revealRadius 
+          ? Math.max(0, 1 - distance / revealRadius) * 0.25
+          : 0;
+        
+        blocks.push(
+          <div
+            key={blockKey}
+            style={{
+              position: 'absolute',
+              left: x * 60,
+              top: y * 60,
+              width: 50,
+              height: 50,
+              opacity: opacity,
+              transition: 'opacity 0.3s ease',
+              pointerEvents: 'none',
+            }}
+          >
+            <svg width="50" height="50" viewBox="0 0 50 50">
+              <defs>
+                <linearGradient id={`grad-${blockKey}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#ffed4e', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#b8860b', stopOpacity: 1 }} />
+                </linearGradient>
+              </defs>
+              
+              {/* Main block */}
+              <rect
+                width="48"
+                height="48"
+                x="1"
+                y="1"
+                fill={`url(#grad-${blockKey})`}
+                stroke="#ffd700"
+                strokeWidth="1"
+                rx="3"
+                style={{
+                  filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))'
+                }}
+              />
+              
+              {/* Simple highlight */}
+              <rect
+                width="20"
+                height="20"
+                x="6"
+                y="6"
+                fill="rgba(255, 255, 255, 0.3)"
+                rx="2"
+              />
+            </svg>
+          </div>
+        );
+      }
+    }
+    
+    return blocks;
   };
 
   return (
@@ -89,15 +189,33 @@ export default function EngagementText() {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       style={{
-        padding: '4rem 0',
+        padding: '0',
         width: '100%',
+        minHeight: '80vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'relative',
+        background: '#121212',
       }}
+      onMouseMove={handleMouseMove}
     >
-      <div style={{ textAlign: 'center' }}>
+      {/* Interactive background */}
+      <div 
+        ref={containerRef}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          overflow: 'hidden',
+          background: '#121212',
+        }}
+      >
+        {generateBlocks()}
+      </div>
+      
+      {/* Content */}
+      <div style={{ textAlign: 'center', maxWidth: '90%', position: 'relative', zIndex: 10 }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentTagline.id}
@@ -105,24 +223,20 @@ export default function EngagementText() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.8rem, 3vw, 1.2rem)' }}
           >
             {currentTagline.lines.map((line, index) => (
               <motion.div
                 key={index}
                 custom={index}
                 variants={textVariants}
-                className="gold-gradient-text"
                 style={{
-                  fontSize: '1.875rem',
-                  lineHeight: '2.25rem',
-                  fontWeight: 'bold',
-                  transform: "perspective(1000px)"
-                }}
-                whileHover={{ 
-                  scale: 1.03, 
-                  transition: { duration: 0.2 },
-                  textShadow: "0px 0px 8px rgba(255, 215, 0, 0.5)"
+                  fontSize: 'clamp(1.5rem, 6vw, 2.5rem)',
+                  lineHeight: '1.3',
+                  fontWeight: '700',
+                  color: '#ffd700',
+                  textShadow: '0 0 20px rgba(255, 215, 0, 0.3)',
+                  letterSpacing: '-0.02em',
                 }}
               >
                 {line}
@@ -134,3 +248,4 @@ export default function EngagementText() {
     </motion.div>
   );
 }
+

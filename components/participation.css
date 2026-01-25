@@ -1,17 +1,25 @@
 /* Participant Group Selector Styles */
 .participant-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
   gap: 1.5rem;
-  padding: 2rem;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .participant-container {
+    padding: 2rem;
+  }
 }
 
 .participant-header {
-  font-size: 1.875rem;
+  font-size: clamp(1.5rem, 5vw, 1.875rem);
   font-weight: 700;
   text-align: center;
   margin-bottom: 2rem;
+  padding: 0 1rem;
   color: transparent;
   background-image: linear-gradient(135deg, #facc15, #ca8a04);
   background-clip: text;
@@ -19,19 +27,20 @@
 }
 
 .participant-card {
-  width: 18rem;
-  height: 18rem;
+  width: 100%;
+  min-height: 16rem;
   background: linear-gradient(135deg, #facc15, #ca8a04);
   padding: 2px;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  transform: translateZ(0);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  will-change: transform;
+  transition: transform 0.2s ease;
 }
 
-.participant-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 20px 25px -5px rgba(250, 204, 21, 0.2), 0 8px 10px -6px rgba(250, 204, 21, 0.2);
+@media (min-width: 768px) {
+  .participant-card {
+    min-height: 18rem;
+  }
 }
 
 .participant-card-inner {
@@ -43,64 +52,49 @@
   background-color: black;
   border-radius: 0.75rem;
   text-align: center;
-  transition: background-color 0.3s ease;
-}
-
-.participant-card-inner:hover {
-  background-color: rgba(0, 0, 0, 0.9);
 }
 
 .participant-code {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+  font-size: clamp(1.5rem, 4vw, 1.875rem);
+  line-height: 1.2;
   font-weight: 700;
   color: white;
 }
 
 .participant-label {
   margin-top: 0.5rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
+  line-height: 1.4;
   font-weight: 600;
   color: white;
 }
 
 .participant-desc {
   margin-top: 0.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: clamp(0.813rem, 2vw, 0.875rem);
+  line-height: 1.4;
   color: #9ca3af;
 }
 
 .participant-button {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   color: black;
   font-weight: 700;
+  font-size: clamp(0.875rem, 2vw, 1rem);
   background: linear-gradient(to right, #facc15, #ca8a04);
-  border-radius: 0.25rem;
-  transition: background 0.3s ease, opacity 0.3s ease;
+  border-radius: 0.375rem;
+  transition: opacity 0.2s ease;
   cursor: pointer;
   border: none;
+  touch-action: manipulation;
 }
 
-.participant-button:hover {
-  background: linear-gradient(to right, #eab308, #a16207);
-}
-
-/* Added styles for disabled buttons */
 .participant-button.disabled,
 .participant-button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
   background: linear-gradient(to right, #9ca3af, #6b7280);
-  box-shadow: none;
-}
-
-.participant-button.disabled:hover,
-.participant-button[disabled]:hover {
-  background: linear-gradient(to right, #9ca3af, #6b7280);
-  transform: none;
 }
 
 /* reCAPTCHA wrapper styles */
@@ -108,11 +102,20 @@
   display: inline-block;
   background-color: rgba(18, 18, 18, 0.9);
   padding: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   border: 1px solid rgba(255, 215, 0, 0.2);
+  transform: scale(1);
+  transform-origin: center;
+}
+
+@media (max-width: 374px) {
+  .recaptcha-wrapper {
+    transform: scale(0.85);
+  }
 }
 
 .captcha-container {
   max-width: 40rem;
   margin: 0 auto 2rem auto;
+  padding: 0 1rem;
 } 

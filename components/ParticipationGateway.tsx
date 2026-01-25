@@ -205,8 +205,9 @@ export default function ParticipationGateway() {
         ref={gifRef} 
         className="glass-panel" 
         style={{
-          height: '250px',
+          height: 'clamp(200px, 40vw, 250px)',
           maxWidth: '450px',
+          width: '90%',
           margin: '0 auto 2.5rem',
           display: 'flex',
           alignItems: 'center',
@@ -228,8 +229,8 @@ export default function ParticipationGateway() {
             objectFit: 'cover',
             borderRadius: '0.75rem'
           }}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         />
       </motion.div>
@@ -258,8 +259,8 @@ export default function ParticipationGateway() {
                 marginBottom: '2rem',
                 textAlign: 'center'
               }}
-              whileHover={{ boxShadow: "0px 0px 15px rgba(255, 215, 0, 0.2)" }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ boxShadow: "0px 0px 10px rgba(255, 215, 0, 0.15)" }}
+              transition={{ duration: 0.2 }}
             >
               <motion.h3
                 style={{
@@ -329,8 +330,8 @@ export default function ParticipationGateway() {
                 borderColor: 'rgba(0, 200, 0, 0.4)'
               }}
               whileHover={{
-                boxShadow: "0px 0px 10px rgba(0, 200, 0, 0.3)",
-                transition: { duration: 0.3 }
+                boxShadow: "0px 0px 8px rgba(0, 200, 0, 0.25)",
+                transition: { duration: 0.2 }
               }}
             >
               <motion.svg
@@ -417,9 +418,8 @@ export default function ParticipationGateway() {
             variants={cardVariants}
             custom={index}
             whileHover={{
-              scale: 1.05,
-              transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
-              boxShadow: "0px 0px 20px rgba(250, 204, 21, 0.25)"
+              scale: 1.03,
+              transition: { duration: 0.2 },
             }}
             whileTap={{ scale: 0.98 }}
           >
