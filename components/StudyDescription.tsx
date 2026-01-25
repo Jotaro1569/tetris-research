@@ -128,7 +128,7 @@ export default function StudyDescription() {
             ABSTRACT
           </span>
           <br />
-          This research study aims to understand how emotional stimuli affect performance in video games. More specifically, this study investigates how exposure to emotionally sensitive written content, such as depictions of violent intent, influence a player's ability to perform in Tetris.
+          This research study aims to understand how emotional stimuli affect performance in video games. More specifically, this study investigates how exposure to emotionally sensitive written content, such as depictions of violent intent, influence a player&apos;s ability to perform in Tetris.
         </motion.p>
         
         <motion.p variants={itemVariants}>
