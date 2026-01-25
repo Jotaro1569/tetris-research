@@ -107,9 +107,6 @@ export default function EngagementText() {
     const cols = Math.ceil(window.innerWidth / 60);
     const rows = Math.ceil(window.innerHeight / 60);
     
-    // Single static color for all blocks
-    const blockColor = '#ffd700'; // Gold color
-    
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
         const blockKey = `${x}-${y}`;

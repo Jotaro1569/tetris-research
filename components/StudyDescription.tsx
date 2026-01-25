@@ -201,7 +201,7 @@ export default function StudyDescription() {
           }}
         >
           <p>
-            * No mention of publication places as it hasn't been finalised yet.
+            * No mention of publication places as it hasn&apos;t been finalised yet.
           </p>
         </motion.div>
       </motion.div>
