@@ -38,7 +38,7 @@ export default function ParticipationGateway() {
   const groups = [
     { code: 'US', label: 'American', desc: 'Participants from the United States' },
     { code: 'IN', label: 'Indian', desc: 'Participants from India' },
-    { code: 'ID', label: 'Indonesia', desc: 'Participants from Indonesia' },
+    { code: 'ID', label: 'Indonesian', desc: 'Participants from Indonesia' },
     { code: 'NL', label: 'Dutch', desc: 'Participants from the Netherlands' }
   ];
 
