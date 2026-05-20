@@ -1,17 +1,15 @@
 import { NextResponse } from 'next/server';
+import { SESSION_COOKIE, verifySession } from './lib/security';
 
-export function middleware(request) {
+export async function middleware(request) {
   const { pathname } = request.nextUrl;
   
   // Check if accessing a protected group route
-  if (pathname.match(/^\/group\/(us|in|id|nl)$/i)) {
-    // Get verification cookies
-    const verified = request.cookies.get('group-verified');
-    const allowedGroup = request.cookies.get('allowed-group');
+  if (pathname.match(/^\/group\/(us|in|id|nl|ot)$/i)) {
+    const session = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
     
     // Redirect to participation page if not verified
-    if (!verified || verified.value !== 'true' || !allowedGroup) {
-      console.log('Access denied: No verification cookies found');
+    if (!session?.group) {
       return NextResponse.redirect(new URL('/', request.url));
     }
     
@@ -19,12 +17,9 @@ export function middleware(request) {
     const requestedGroup = pathname.split('/')[2].toUpperCase();
     
     // Check if trying to access the correct group
-    if (allowedGroup.value !== requestedGroup) {
-      console.log(`Access denied: Trying to access ${requestedGroup} but allowed ${allowedGroup.value}`);
-      return NextResponse.redirect(new URL('/participation', request.url));
+    if (session.group !== requestedGroup) {
+      return NextResponse.redirect(new URL('/', request.url));
     }
-    
-    console.log(`Access granted: ${allowedGroup.value} user accessing ${requestedGroup}`);
   }
   
   return NextResponse.next();

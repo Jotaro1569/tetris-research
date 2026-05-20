@@ -68,7 +68,7 @@ export default function DutchParticipantPage() {
           transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
         >
           <a 
-            href="https://survey.alchemer.com/s3/8364376/f4dd9944c62f" 
+            href="/api/start-survey?group=NL" 
             target="_blank" 
             rel="noopener noreferrer"
             style={{ textDecoration: 'none' }}

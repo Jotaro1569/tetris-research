@@ -68,7 +68,7 @@ export default function USParticipantPage() {
           transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
         >
           <a 
-            href="https://survey.alchemer.com/s3/8364376/2f0e95c27f8e" 
+            href="/api/start-survey?group=US" 
             target="_blank" 
             rel="noopener noreferrer"
             style={{ textDecoration: 'none' }}

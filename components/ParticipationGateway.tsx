@@ -29,12 +29,6 @@ export default function ParticipationGateway() {
     if (isComponentRootInView) controls.start("visible");
   }, [isComponentRootInView, controls]);
 
-  // Debug logging - remove in production
-  useEffect(() => {
-    console.log('reCAPTCHA site key:', process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
-    console.log('Site key length:', process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.length);
-  }, []);
-
   const groups = [
     { code: 'US', label: 'American', desc: 'Participants from the United States' },
     { code: 'IN', label: 'Indian', desc: 'Participants from India' },
@@ -52,7 +46,6 @@ export default function ParticipationGateway() {
       setError(null);
     } else {
       setError(null);
-      console.log('CAPTCHA completed successfully');
     }
   };
 
@@ -77,7 +70,6 @@ export default function ParticipationGateway() {
       });
 
       const data = await res.json();
-      console.log('Location verification response:', data);
 
       if (data.error) {
         // CAPTCHA token was consumed and failed - need to reset
@@ -99,7 +91,7 @@ export default function ParticipationGateway() {
         if (recaptchaRef.current) {
           recaptchaRef.current.reset();
         }
-        setError(data.message || `You can only participate in the study group for your country. Your detected country: ${data.userCountry || 'unknown'}`);
+        setError(data.message || 'You can only participate in the study group for your country.');
       }
     } catch (err) {
       console.error('Location verification error:', err);
